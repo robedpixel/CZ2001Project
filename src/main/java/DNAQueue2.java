@@ -27,6 +27,7 @@ public class DNAQueue2 extends LinkedList<Character> {
         break;
       default:
         System.out.println("error inputing into queue!");
+        System.out.println(in);
         return 1;
     }
     return 0;
