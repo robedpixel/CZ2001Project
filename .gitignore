@@ -1,0 +1,11 @@
+/*
+!.gitignore
+!README.txt
+!build.gradle
+!GenerateEclipseProject.bat
+!GenerateEclipseProject.sh
+!gradlew
+!gradlew.bat
+!settings.gradle
+!/gradle/
+!/src/
