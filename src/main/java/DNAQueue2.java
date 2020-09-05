@@ -34,7 +34,7 @@ public class DNAQueue2 extends LinkedList<Character> {
   }
 
   public char DNAPop() {
-    char pop = this.pop();
+    char pop = this.pollLast();
     switch (pop) {
       case 'A':
         totalcount = totalcount - AVALUE;
@@ -46,8 +46,12 @@ public class DNAQueue2 extends LinkedList<Character> {
         totalcount = totalcount - TVALUE;
         break;
       case 'G':
-        totalcount = totalcount + GVALUE;
+        totalcount = totalcount - GVALUE;
         break;
+      default:
+        System.out.println("error removing from queue!");
+        System.out.println(pop);
+        return 1;
     }
     return pop;
   }

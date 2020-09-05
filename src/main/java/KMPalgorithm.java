@@ -52,7 +52,7 @@ public class KMPalgorithm implements SearchAlgorithm {
         i++;
       }
       if (j == X) {
-        System.out.println("Found pattern " + "at position " + (i - j));
+        System.out.println("Found pattern " + "at index " + (i - j));
         output.add(i - j + substring_index);
         j = long_ps[j - 1];
       }
@@ -87,7 +87,7 @@ public class KMPalgorithm implements SearchAlgorithm {
         i++;
       }
       if (j == X) {
-        System.out.println("Found pattern " + "at position " + (i - j));
+        System.out.println("Found pattern " + "at index " + (i - j));
         j = long_ps[j - 1];
       }
 

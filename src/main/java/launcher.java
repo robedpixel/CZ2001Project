@@ -28,10 +28,20 @@ public class launcher {
     SearchAlgorithm searcher = new CustomAlgorithm2();
     ArrayList<Integer> output;
     System.out.println(stringoutput.get(0));
-    output = searcher.search(stringoutput.get(0), "ATG", 0);
+    output = searcher.search(stringoutput.get(0), "CTACTG", 0);
+    System.out.println(output);
+    SearchAlgorithm searcher2 = new KMPalgorithm();
+    output = searcher2.search(stringoutput.get(0), "CTACTG", 0);
+    System.out.println(output);
     if (output.isEmpty() == false) {
-      System.out.println(output.get(0));
+      displayFoundPositions(output);
     }
     // end timer
+  }
+
+  private static void displayFoundPositions(ArrayList<Integer> positions) {
+    for (int i = 0; i < positions.size(); i++) {
+      System.out.println("Found pattern " + "at position " + (positions.get(i) + 1));
+    }
   }
 }

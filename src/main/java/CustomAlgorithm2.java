@@ -13,7 +13,6 @@ public class CustomAlgorithm2 implements SearchAlgorithm {
       substringqueue.DNAPush(substring.charAt(i));
       searchqueue.DNAPush(Genome.charAt(i));
     }
-
     // Search through Genome until end of Genome
     int loopcount = Genome.length() - substring.length() + 1;
     boolean stringfound = false;
@@ -21,9 +20,10 @@ public class CustomAlgorithm2 implements SearchAlgorithm {
     for (int i = 0; i < loopcount; i++) {
       if (substringqueue.getTotal() == searchqueue.getTotal()) {
         stringfound = true;
-        queueiterator = searchqueue.descendingIterator();
+        queueiterator = substringqueue.descendingIterator();
         for (int j = 0; j < searchqueue.size(); j++) {
-          if (Genome.charAt(i + j) != queueiterator.next()) {
+          char input = queueiterator.next();
+          if (Genome.charAt(i + j) != input) {
             stringfound = false;
             break;
           }
@@ -58,10 +58,9 @@ public class CustomAlgorithm2 implements SearchAlgorithm {
             + "TCTTCGTAAGAACGGTAATAAAGGAGCTGGTGGCCATAGTTACGGCGCCGATCTAAAGTCATT"
             + "TGACTTAGGCGACGAGCTTGGCACTGATCCTTATGAAGATTTTCAAGAAAACTGGAACACTAA"
             + "ACATAGCAGTGGTGTTACCCGTGAACTCATGCGTGAGCTTAACGGAGGGGCATACACTCGCTA";
-    // String query = "TTTATACCTTCC";
-    String query = "ATTAAA";
-    CustomAlgorithm2 kmp = new CustomAlgorithm2();
-    ArrayList<Integer> list = kmp.search(DNAseq, query, 0);
+    String query = "TTTATACCTT";
+    SearchAlgorithm searcher = new CustomAlgorithm2();
+    ArrayList<Integer> list = searcher.search(DNAseq, query, 0);
     for (int i = 0; i < list.size(); i++) {
       System.out.println(list.get(i));
     }
