@@ -1,3 +1,5 @@
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -15,6 +17,7 @@ public class CustomAlgorithm2 implements SearchAlgorithm {
     }
     // Search through Genome until end of Genome
     int loopcount = Genome.length() - substring.length() + 1;
+    int looplimit = loopcount - 1;
     boolean stringfound = false;
     Iterator<Character> queueiterator;
     for (int i = 0; i < loopcount; i++) {
@@ -34,7 +37,7 @@ public class CustomAlgorithm2 implements SearchAlgorithm {
         }
       }
       // Shift the queue to the right by one
-      if (i != (loopcount - 1)) {
+      if (i != looplimit) {
         searchqueue.DNAPop();
         searchqueue.DNAPush(Genome.charAt((i + substring.length())));
       }
@@ -58,11 +61,46 @@ public class CustomAlgorithm2 implements SearchAlgorithm {
             + "TCTTCGTAAGAACGGTAATAAAGGAGCTGGTGGCCATAGTTACGGCGCCGATCTAAAGTCATT"
             + "TGACTTAGGCGACGAGCTTGGCACTGATCCTTATGAAGATTTTCAAGAAAACTGGAACACTAA"
             + "ACATAGCAGTGGTGTTACCCGTGAACTCATGCGTGAGCTTAACGGAGGGGCATACACTCGCTA";
-    String query = "TTTATACCTT";
+    String query = "TTTATACCTTCC";
+    // String query = "AAA";
+    // SearchAlgorithm searcher = new CustomAlgorithm2();
+
+    // brute force search output
+    System.out.println("Brute search");
+    SearchAlgorithm searcherbrute = new BruteForce();
+    ArrayList<Integer> brutelist;
+    Instant start = Instant.now();
+    brutelist = searcherbrute.search(DNAseq, query, 0);
+    Instant end = Instant.now();
+    System.out.println("time taken:" + Duration.between(start, end).toNanos());
+    for (int i = 0; i < brutelist.size(); i++) {
+      System.out.println("Found pattern " + "at index " + brutelist.get(i));
+    }
+
+    // non threaded search output
+    System.out.println("custom search");
     SearchAlgorithm searcher = new CustomAlgorithm2();
-    ArrayList<Integer> list = searcher.search(DNAseq, query, 0);
-    for (int i = 0; i < list.size(); i++) {
-      System.out.println(list.get(i));
+    ArrayList<Integer> nothreadlist;
+    start = Instant.now();
+    nothreadlist = searcher.search(DNAseq, query, 0);
+    end = Instant.now();
+    System.out.println("time taken:" + Duration.between(start, end).toNanos());
+    for (int i = 0; i < nothreadlist.size(); i++) {
+      System.out.println("Found pattern " + "at index " + nothreadlist.get(i));
+    }
+
+    // display threaded search output;
+    System.out.println("custom threaded search");
+    ArrayList<Integer> list[];
+    list = (ArrayList<Integer>[]) new ArrayList[2];
+    start = Instant.now();
+    ThreadsFunction.Run_Threads(DNAseq, query, list);
+    end = Instant.now();
+    System.out.println("time taken:" + Duration.between(start, end).toNanos());
+    for (int i = 0; i < list.length; i++) {
+      for (int j = 0; j < list[i].size(); j++) {
+        System.out.println("Found pattern " + "at index " + list[i].get(j));
+      }
     }
   }
 }

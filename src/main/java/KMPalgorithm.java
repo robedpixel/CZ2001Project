@@ -1,3 +1,5 @@
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 
 // coded by Shyam
@@ -117,10 +119,14 @@ public class KMPalgorithm implements SearchAlgorithm {
             + "TCTTCGTAAGAACGGTAATAAAGGAGCTGGTGGCCATAGTTACGGCGCCGATCTAAAGTCATT"
             + "TGACTTAGGCGACGAGCTTGGCACTGATCCTTATGAAGATTTTCAAGAAAACTGGAACACTAA"
             + "ACATAGCAGTGGTGTTACCCGTGAACTCATGCGTGAGCTTAACGGAGGGGCATACACTCGCTA";
-    String query = "TTTATACCTTCC";
+    // String query = "TTTATACCTTCC";
+    String query = "AAA";
     KMPalgorithm kmp = new KMPalgorithm();
     kmp.SearchingKMP(query, DNAseq);
+    Instant start = Instant.now();
     ArrayList<Integer> list = kmp.search(DNAseq, query, 0);
+    Instant end = Instant.now();
+    System.out.println("time taken:" + Duration.between(start, end).toNanos());
     for (int i = 0; i < list.size(); i++) {
       System.out.println(list.get(i));
     }

@@ -11,19 +11,19 @@ public class DNAQueue2 extends LinkedList<Character> {
     switch (in) {
       case 'A':
         this.push(in);
-        totalcount = totalcount + AVALUE;
+        totalcount += AVALUE;
         break;
       case 'C':
         this.push(in);
-        totalcount = totalcount + CVALUE;
+        totalcount += CVALUE;
         break;
       case 'T':
         this.push(in);
-        totalcount = totalcount + TVALUE;
+        totalcount += TVALUE;
         break;
       case 'G':
         this.push(in);
-        totalcount = totalcount + GVALUE;
+        totalcount += GVALUE;
         break;
       default:
         System.out.println("error inputing into queue!");
@@ -37,16 +37,16 @@ public class DNAQueue2 extends LinkedList<Character> {
     char pop = this.pollLast();
     switch (pop) {
       case 'A':
-        totalcount = totalcount - AVALUE;
+        totalcount -= AVALUE;
         break;
       case 'C':
-        totalcount = totalcount - CVALUE;
+        totalcount -= CVALUE;
         break;
       case 'T':
-        totalcount = totalcount - TVALUE;
+        totalcount -= TVALUE;
         break;
       case 'G':
-        totalcount = totalcount - GVALUE;
+        totalcount -= GVALUE;
         break;
       default:
         System.out.println("error removing from queue!");

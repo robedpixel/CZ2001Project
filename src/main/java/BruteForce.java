@@ -1,0 +1,49 @@
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+
+// coded by harish
+
+public class BruteForce implements SearchAlgorithm {
+
+  public ArrayList<Integer> search(String Genome, String substring, int substring_index) {
+    ArrayList<Integer> output = new ArrayList<Integer>();
+    LinkedList<Character> substringqueue = new LinkedList();
+    LinkedList<Character> searchqueue = new LinkedList();
+
+    // Fill substring queue with substring and searchqueue with initial values in Genome
+    for (int i = 0; i < substring.length(); i++) {
+      substringqueue.push(substring.charAt(i));
+      searchqueue.push(Genome.charAt(i));
+    }
+
+    // Search through Genome until end of Genome
+    int loopcount = Genome.length() - substring.length() + 1;
+    int looplimit = loopcount - 1;
+    boolean stringfound = false;
+    Iterator<Character> queueiterator;
+
+    for (int i = 0; i < loopcount; i++) {
+      stringfound = true;
+      queueiterator = substringqueue.descendingIterator();
+      for (int j = 0; j < searchqueue.size(); j++) {
+        char input = queueiterator.next();
+        if (Genome.charAt(i + j) != input) {
+          stringfound = false;
+          break;
+        }
+      }
+      // If the string matches add it to the array list
+      if (stringfound == true) {
+        output.add(i + substring_index);
+      }
+
+      // Shift the queue to the right by one
+      if (i != looplimit) {
+        searchqueue.pollLast();
+        searchqueue.push(Genome.charAt((i + substring.length())));
+      }
+    }
+    return output;
+  }
+}
