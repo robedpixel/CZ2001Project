@@ -6,6 +6,8 @@ public class DNAQueue2 extends LinkedList<Character> {
   final int CVALUE = 2;
   final int TVALUE = 4;
   final int GVALUE = 8;
+  final int NVALUE = 16;
+  final int UVALUE = 32;
 
   public int DNAPush(char in) {
     switch (in) {
@@ -24,6 +26,14 @@ public class DNAQueue2 extends LinkedList<Character> {
       case 'G':
         this.push(in);
         totalcount += GVALUE;
+        break;
+      case 'N':
+        this.push(in);
+        totalcount += NVALUE;
+        break;
+      case 'U':
+        this.push(in);
+        totalcount += UVALUE;
         break;
       default:
         System.out.println("error inputing into queue!");
@@ -47,6 +57,12 @@ public class DNAQueue2 extends LinkedList<Character> {
         break;
       case 'G':
         totalcount -= GVALUE;
+        break;
+      case 'N':
+        totalcount -= NVALUE;
+        break;
+      case 'U':
+        totalcount -= UVALUE;
         break;
       default:
         System.out.println("error removing from queue!");
