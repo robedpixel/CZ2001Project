@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Scanner;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import net.sf.jfasta.FASTAElement;
@@ -18,6 +19,8 @@ public class launcher {
     String genome = "";
     int genomelistindex = 0;
     int input = 0;
+    String stringinput = "";
+    Scanner sc = new Scanner(System.in);
     // read Genomes into a list of strings
     System.out.println("Choose an .fna file:");
     JFileChooser filechooser = new JFileChooser();
@@ -43,18 +46,64 @@ public class launcher {
       System.out.println("Substring to search:" + substring);
       System.out.println(
           "1 = choose new file, 2 = choose DNA sequence, 3 = set substring to search, 4 = search substring in dna sequence, 5 = quit");
-      stopped = true;
-    }
-    SearchAlgorithm searcher = new CustomAlgorithm2();
-    ArrayList<Integer> output;
-    System.out.println(genomelist.get(0));
-    output = searcher.search(genomelist.get(0), "CTACTG", 0);
-    System.out.println(output);
-    SearchAlgorithm searcher2 = new KMPalgorithm();
-    output = searcher2.search(genomelist.get(0), "CTACTG", 0);
-    System.out.println(output);
-    if (output.isEmpty() == false) {
-      displayFoundPositions(output);
+      input = sc.nextInt();
+      stringinput = sc.nextLine();
+      switch (input) {
+        case 1:
+          System.out.println("Choose an .fna file:");
+          returnVal = filechooser.showOpenDialog(null);
+          while (genomefile.isFile() == false) {
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+              genomefile = filechooser.getSelectedFile();
+            }
+          }
+          reader = new FASTAFileReaderImpl(genomefile);
+          it = reader.getIterator();
+          while (it.hasNext()) {
+            final FASTAElement el = it.next();
+            genomelist.add(el.getSequence().toUpperCase());
+          }
+          genomelistindex = 0;
+          break;
+        case 2:
+          System.out.println("Choose DNA sequence:");
+          System.out.println("1 - " + genomelist.size());
+          input = sc.nextInt() - 1;
+          stringinput = sc.nextLine();
+          while (input > genomelist.size()) {
+            System.out.println("Error input");
+            System.out.println("Choose DNA sequence:");
+            System.out.println("1 - " + genomelist.size());
+            input = sc.nextInt() - 1;
+            stringinput = sc.nextLine();
+          }
+          genomelistindex = input;
+          break;
+        case 3:
+          System.out.println("Set substring:");
+          substring = sc.nextLine();
+          substring = substring.toUpperCase();
+          break;
+        case 4:
+          SearchAlgorithm searcher = new CustomAlgorithm2();
+          ArrayList<Integer> output;
+          System.out.println("genome:" + genomelist.get(genomelistindex));
+          output = searcher.search(genomelist.get(genomelistindex), substring, 0);
+          System.out.println(output);
+          SearchAlgorithm searcher2 = new KMPalgorithm();
+          output = searcher2.search(genomelist.get(genomelistindex), substring, 0);
+          System.out.println(output);
+          if (output.isEmpty() == false) {
+            displayFoundPositions(output);
+          }
+          break;
+        case 5:
+          stopped = true;
+          break;
+        default:
+          System.out.println("Error reading input");
+          break;
+      }
     }
     // end timer
   }
