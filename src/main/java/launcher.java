@@ -1,5 +1,7 @@
 import java.io.File;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -57,6 +59,7 @@ public class launcher {
               genomefile = filechooser.getSelectedFile();
             }
           }
+          genomelist.clear();
           reader = new FASTAFileReaderImpl(genomefile);
           it = reader.getIterator();
           while (it.hasNext()) {
@@ -85,16 +88,63 @@ public class launcher {
           substring = substring.toUpperCase();
           break;
         case 4:
-          SearchAlgorithm searcher = new CustomAlgorithm2();
-          ArrayList<Integer> output;
-          System.out.println("genome:" + genomelist.get(genomelistindex));
-          output = searcher.search(genomelist.get(genomelistindex), substring, 0);
-          System.out.println(output);
-          SearchAlgorithm searcher2 = new KMPalgorithm();
-          output = searcher2.search(genomelist.get(genomelistindex), substring, 0);
-          System.out.println(output);
-          if (output.isEmpty() == false) {
-            displayFoundPositions(output);
+          System.out.println("Choose algorithm");
+          System.out.println("1 = Brute Force, 2 = KMP, 3 = Rabin Karp");
+          input = sc.nextInt();
+          stringinput = sc.nextLine();
+          {
+            SearchAlgorithm searcher;
+            Instant start;
+            Instant end;
+            ArrayList<Integer> output;
+            int duration;
+            switch (input) {
+              case 1:
+                searcher = new BruteForce();
+                start = Instant.now();
+                output = searcher.search(genomelist.get(genomelistindex), substring, 0);
+                end = Instant.now();
+                duration = Duration.between(start, end).getNano();
+                System.out.println("time taken:" + duration + " nanoseconds");
+                if (output.isEmpty() == false) {
+                  displayFoundPositions(output);
+                } else {
+                  System.out.println("No patterns found");
+                }
+                break;
+              case 2:
+                searcher = new KMPalgorithm();
+                start = Instant.now();
+                output = searcher.search(genomelist.get(genomelistindex), substring, 0);
+                end = Instant.now();
+                duration = Duration.between(start, end).getNano();
+                System.out.println("time taken:" + duration + " nanoseconds");
+                if (output.isEmpty() == false) {
+                  displayFoundPositions(output);
+                } else {
+                  System.out.println("No patterns found");
+                }
+                break;
+              case 3:
+                ArrayList arrayoutput[] = new ArrayList[2];
+                start = Instant.now();
+                ThreadsFunction.Run_Threads(
+                    genomelist.get(genomelistindex), substring, arrayoutput);
+                end = Instant.now();
+                duration = Duration.between(start, end).getNano();
+                System.out.println("time taken:" + duration + " nanoseconds");
+                for (int i = 0; i < arrayoutput.length; i++) {
+                  if (arrayoutput[i].isEmpty() == false) {
+                    displayFoundPositions(arrayoutput[i]);
+                  }
+                }
+                if (arrayoutput[0].isEmpty() == false && arrayoutput[1].isEmpty() == false) {
+                  System.out.println("No patterns found");
+                }
+                break;
+              default:
+                System.out.println("error input!");
+            }
           }
           break;
         case 5:
