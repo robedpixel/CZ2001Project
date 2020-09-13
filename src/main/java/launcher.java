@@ -1,7 +1,5 @@
 import java.io.File;
 import java.io.IOException;
-import java.time.Duration;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -22,6 +20,8 @@ public class launcher {
     int genomelistindex = 0;
     int input = 0;
     String stringinput = "";
+    long start;
+    long end;
     long duration;
     Scanner sc = new Scanner(System.in);
     // read Genomes into a list of strings
@@ -100,14 +100,14 @@ public class launcher {
               case 1:
                 searcher = new BruteForce();
 
-                //TODO: TIME MEASUREMENT DOESNT WORK
-                Instant start = Instant.now();
+                // TODO: TIME MEASUREMENT DOESNT WORK
+                start = System.nanoTime();
                 output = searcher.search(genomelist.get(genomelistindex), substring, 0);
-                Instant end = Instant.now();
-                duration = Duration.between(start, end).toNanos();
+                end = System.nanoTime();
+                ;
+                duration = end - start;
 
-                
-                System.out.println("time taken:" + duration + "nanocseconds");
+                System.out.println("time taken:" + duration + " nanoseconds");
                 if (output.isEmpty() == false) {
                   displayFoundPositions(output);
                 } else {
@@ -117,14 +117,14 @@ public class launcher {
               case 2:
                 searcher = new KMPalgorithm();
 
-                //TODO: TIME MEASUREMENT DOESNT WORK
-                Instant start1 = Instant.now();
+                // TODO: TIME MEASUREMENT DOESNT WORK
+                start = System.nanoTime();
                 output = searcher.search(genomelist.get(genomelistindex), substring, 0);
-                Instant end1 = Instant.now();
-                duration = Duration.between(start1, end1).toNanos();
+                end = System.nanoTime();
+                ;
+                duration = end - start;
 
-
-                System.out.println("time taken:" + duration + "nanocseconds");
+                System.out.println("time taken:" + duration + " nanoseconds");
                 if (output.isEmpty() == false) {
                   displayFoundPositions(output);
                 } else {
@@ -134,15 +134,15 @@ public class launcher {
               case 3:
                 ArrayList arrayoutput[] = new ArrayList[2];
 
-                //TODO: TIME MEASUREMENT DOESNT WORK
-                Instant start2 = Instant.now();
+                // TODO: TIME MEASUREMENT DOESNT WORK
+                start = System.nanoTime();
                 ThreadsFunction.Run_Threads(
                     genomelist.get(genomelistindex), substring, arrayoutput);
-                Instant end2 = Instant.now();
+                end = System.nanoTime();
+                ;
+                duration = end - start;
 
-
-                duration = Duration.between(start2, end2).toNanos();
-                System.out.println("time taken:" + duration + "nanocseconds");
+                System.out.println("time taken:" + duration + " nanoseconds");
                 for (int i = 0; i < arrayoutput.length; i++) {
                   if (arrayoutput[i].isEmpty() == false) {
                     displayFoundPositions(arrayoutput[i]);
