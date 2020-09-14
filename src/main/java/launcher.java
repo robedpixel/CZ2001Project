@@ -23,6 +23,8 @@ public class launcher {
     long start;
     long end;
     long duration;
+    FASTAFileReader reader;
+    FASTAElementIterator it;
     Scanner sc = new Scanner(System.in);
     // read Genomes into a list of strings
     System.out.println("Choose an .fna file:");
@@ -30,17 +32,16 @@ public class launcher {
     FileNameExtensionFilter filter = new FileNameExtensionFilter("fna Files", "fna");
     filechooser.setFileFilter(filter);
     int returnVal = filechooser.showOpenDialog(null);
-    while (genomefile.isFile() == false) {
-      if (returnVal == JFileChooser.APPROVE_OPTION) {
-        genomefile = filechooser.getSelectedFile();
+    if (returnVal == JFileChooser.APPROVE_OPTION) {
+      genomefile = filechooser.getSelectedFile();
+      reader = new FASTAFileReaderImpl(genomefile);
+      it = reader.getIterator();
+      while (it.hasNext()) {
+        final FASTAElement el = it.next();
+        genomelist.add(el.getSequence().toUpperCase());
       }
     }
-    FASTAFileReader reader = new FASTAFileReaderImpl(genomefile);
-    FASTAElementIterator it = reader.getIterator();
-    while (it.hasNext()) {
-      final FASTAElement el = it.next();
-      genomelist.add(el.getSequence().toUpperCase());
-    }
+
     while (stopped == false) {
       System.out.println("Choose an option:");
       System.out.println("Current file:" + genomefile.getAbsolutePath());
@@ -70,6 +71,10 @@ public class launcher {
           genomelistindex = 0;
           break;
         case 2:
+          if (genomefile.isFile() == false) {
+            System.out.println("Error! no file chosen!");
+            break;
+          }
           System.out.println("Choose DNA sequence:");
           System.out.println("1 - " + genomelist.size());
           input = sc.nextInt() - 1;
@@ -89,8 +94,13 @@ public class launcher {
           substring = substring.toUpperCase();
           break;
         case 4:
+          if (genomefile.isFile() == false) {
+            System.out.println("Error! no file chosen!");
+            break;
+          }
           System.out.println("Choose algorithm");
-          System.out.println("1 = Brute Force, 2 = KMP, 3 = Rabin Karp");
+          System.out.println(
+              "1 = Brute Force, 2 = KMP, 3 = Rabin Karp, 4 = Rabin Karp Multithreaded");
           input = sc.nextInt();
           stringinput = sc.nextLine();
           {
@@ -100,11 +110,10 @@ public class launcher {
               case 1:
                 searcher = new BruteForce();
 
-                // TODO: TIME MEASUREMENT DOESNT WORK
                 start = System.nanoTime();
                 output = searcher.search(genomelist.get(genomelistindex), substring, 0);
                 end = System.nanoTime();
-                ;
+
                 duration = end - start;
 
                 System.out.println("time taken:" + duration + " nanoseconds");
@@ -117,11 +126,10 @@ public class launcher {
               case 2:
                 searcher = new KMPalgorithm();
 
-                // TODO: TIME MEASUREMENT DOESNT WORK
                 start = System.nanoTime();
                 output = searcher.search(genomelist.get(genomelistindex), substring, 0);
                 end = System.nanoTime();
-                ;
+
                 duration = end - start;
 
                 System.out.println("time taken:" + duration + " nanoseconds");
@@ -132,14 +140,29 @@ public class launcher {
                 }
                 break;
               case 3:
+                searcher = new CustomAlgorithm2();
+
+                start = System.nanoTime();
+                output = searcher.search(genomelist.get(genomelistindex), substring, 0);
+                end = System.nanoTime();
+
+                duration = end - start;
+
+                System.out.println("time taken:" + duration + " nanoseconds");
+                if (output.isEmpty() == false) {
+                  displayFoundPositions(output);
+                } else {
+                  System.out.println("No patterns found");
+                }
+                break;
+              case 4:
                 ArrayList arrayoutput[] = new ArrayList[2];
 
-                // TODO: TIME MEASUREMENT DOESNT WORK
                 start = System.nanoTime();
                 ThreadsFunction.Run_Threads(
                     genomelist.get(genomelistindex), substring, arrayoutput);
                 end = System.nanoTime();
-                ;
+
                 duration = end - start;
 
                 System.out.println("time taken:" + duration + " nanoseconds");
