@@ -116,12 +116,12 @@ public class launcher {
 
                 duration = end - start;
 
-                System.out.println("time taken:" + duration + " nanoseconds");
                 if (output.isEmpty() == false) {
                   displayFoundPositions(output);
                 } else {
                   System.out.println("No patterns found");
                 }
+                System.out.println("time taken:" + duration + " nanoseconds");
                 break;
               case 2:
                 searcher = new KMPalgorithm();
@@ -132,12 +132,12 @@ public class launcher {
 
                 duration = end - start;
 
-                System.out.println("time taken:" + duration + " nanoseconds");
                 if (output.isEmpty() == false) {
                   displayFoundPositions(output);
                 } else {
                   System.out.println("No patterns found");
                 }
+                System.out.println("time taken:" + duration + " nanoseconds");
                 break;
               case 3:
                 searcher = new CustomAlgorithm2();
@@ -148,12 +148,12 @@ public class launcher {
 
                 duration = end - start;
 
-                System.out.println("time taken:" + duration + " nanoseconds");
                 if (output.isEmpty() == false) {
                   displayFoundPositions(output);
                 } else {
                   System.out.println("No patterns found");
                 }
+                System.out.println("time taken:" + duration + " nanoseconds");
                 break;
               case 4:
                 ArrayList arrayoutput[] = new ArrayList[2];
@@ -165,12 +165,12 @@ public class launcher {
 
                 duration = end - start;
 
-                System.out.println("time taken:" + duration + " nanoseconds");
                 for (int i = 0; i < arrayoutput.length; i++) {
                   if (arrayoutput[i].isEmpty() == false) {
                     displayFoundPositions(arrayoutput[i]);
                   }
                 }
+                System.out.println("time taken:" + duration + " nanoseconds");
                 if (arrayoutput[0].isEmpty() == true && arrayoutput[1].isEmpty() == true) {
                   System.out.println("No patterns found");
                 }

@@ -21,7 +21,9 @@ public class CustomAlgorithm2 implements SearchAlgorithm {
     boolean stringfound = false;
     Iterator<Character> queueiterator;
     for (int i = 0; i < loopcount; i++) {
-      if (substringqueue.getTotal() == searchqueue.getTotal()) {
+      if (substringqueue.getTotal()
+          == searchqueue
+              .getTotal()) { // check if substring hash is equal,if equal do brute force check
         stringfound = true;
         queueiterator = substringqueue.descendingIterator();
         for (int j = 0; j < searchqueue.size(); j++) {

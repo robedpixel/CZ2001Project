@@ -6,6 +6,10 @@ import java.util.ArrayList;
 
 public class KMPalgorithm implements SearchAlgorithm {
 
+  // ps length = x
+  // X = x
+  // query length = x
+
   void pref_suff_table(String query, int X, int long_ps[]) {
     // length of the previous longest prefix suffix
     int len = 0;
@@ -33,7 +37,8 @@ public class KMPalgorithm implements SearchAlgorithm {
       }
     }
   }
-
+  // genome length = y
+  // substring length = x
   public ArrayList<Integer> search(String Genome, String substring, int substring_index) {
     ArrayList<Integer> output = new ArrayList<Integer>();
     int X = substring.length();
@@ -46,6 +51,7 @@ public class KMPalgorithm implements SearchAlgorithm {
         new int[X]; // create long_ps[] that will hold the longest prefix suffix values for pattern
 
     // Preprocess the pattern (calculate long_ps[] array)
+
     pref_suff_table(substring, X, long_ps);
 
     while (i < Y) {

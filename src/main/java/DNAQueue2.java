@@ -9,6 +9,7 @@ public class DNAQueue2 extends LinkedList<Character> {
   final int NVALUE = 16;
   final int UVALUE = 32;
 
+  //
   public int DNAPush(char in) {
     switch (in) {
       case 'A':

@@ -4,6 +4,8 @@ import java.util.LinkedList;
 
 // coded by harish
 
+// Assume length is substring to be x, length of string to be y.
+
 public class BruteForce implements SearchAlgorithm {
 
   public ArrayList<Integer> search(String Genome, String substring, int substring_index) {
@@ -15,11 +17,13 @@ public class BruteForce implements SearchAlgorithm {
     for (int i = 0; i < substring.length(); i++) {
       substringqueue.push(substring.charAt(i));
       searchqueue.push(Genome.charAt(i));
-    }
+    } // ANALYSIS: time complexity = O(2x)
 
     // Search through Genome until end of Genome
     int loopcount = Genome.length() - substring.length() + 1;
     int looplimit = loopcount - 1;
+    // ANALYSIS: time complexity = 3
+
     boolean stringfound = false;
     Iterator<Character> queueiterator;
 
@@ -44,6 +48,12 @@ public class BruteForce implements SearchAlgorithm {
         searchqueue.push(Genome.charAt((i + substring.length())));
       }
     }
+    // loops x-y+1 times;
+    // queue time complexity = O((x-y)*3)
+    // worst case scenario = (x-y)(y)
+
+    // worst case time complexity = yx+y^2+3x+3y-3
+
     return output;
   }
 }
