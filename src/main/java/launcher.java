@@ -30,6 +30,8 @@ public class launcher {
     System.out.println("Choose an .fna file:");
     JFileChooser filechooser = new JFileChooser();
     FileNameExtensionFilter filter = new FileNameExtensionFilter("fna Files", "fna");
+    File workingDirectory = new File(System.getProperty("user.dir"));
+    filechooser.setCurrentDirectory(workingDirectory);
     filechooser.setFileFilter(filter);
     int returnVal = filechooser.showOpenDialog(null);
     if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -55,6 +57,7 @@ public class launcher {
       switch (input) {
         case 1:
           System.out.println("Choose an .fna file:");
+          filechooser.setCurrentDirectory(workingDirectory);
           returnVal = filechooser.showOpenDialog(null);
           while (genomefile.isFile() == false) {
             if (returnVal == JFileChooser.APPROVE_OPTION) {
